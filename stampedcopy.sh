@@ -7,7 +7,7 @@ die() {
 
 
 stampedcopy() {
-  [ -d "$1" ] || die "Source directory '${1}' dosen't exist."
+  [ -d "$1" ] || die "Source directory '${1}' doesn't exist."
 
 
   [ -d "$2" ] || {
