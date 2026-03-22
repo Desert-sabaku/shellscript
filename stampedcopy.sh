@@ -1,36 +1,33 @@
 #!/bin/sh
 
 die() {
-    case $1 in
-        --no-exit)
-            shift
-            printf "%s\n" "$*" >&2
-            ;;
-        *)
-            printf "%s\n" "$*" >&2
-            exit 1
-            ;;
-    esac
+  printf "%s\n" "$*" >&2
+  exit 1
 }
 
 
 stampedcopy() {
-  [ -d "$1" ] || die "[ERROR] $(date): ${1} dosen't exit."
+  [ -d "$1" ] || die "Source directory '${1}' dosen't exist."
 
 
   [ -d "$2" ] || {
-    die --no-exit "[WARN] $(date): ${2} dosen't exit."
-    mkdir --verbose "$2"
+    printf "Creating directory: %s\n" "$2"
+    mkdir -p "$2" || die "Failed to create '$2'."
   }
 
   readonly TIMESTAMP=$(date "+%F")
-  for item in "$1"/*; do
-    [ -e "$item" ] || continue
-    file=$(basename $item)
+  for path in "$1"/*; do
+    [ -e "$path" ] || continue
+    file=${path##*/}
     new_file="${2}/${TIMESTAMP}_${file}"
-    cp "$item" "$new_file" --verbose
+    cp "$path" "$new_file"
   done
 }
 
-stampedcopy $1 $2
+if [ $# -lt 2 ]; then
+  printf "Usage: %s src dst\n" "$0"
+  exit 1
+fi
+
+stampedcopy "$1" "$2"
 
