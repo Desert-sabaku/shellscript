@@ -5,10 +5,8 @@ die() {
   exit 1
 }
 
-
 stampedcopy() {
   [ -d "$1" ] || die "Source directory '${1}' doesn't exist."
-
 
   [ -d "$2" ] || {
     printf "Creating directory: %s\n" "$2"
@@ -17,10 +15,10 @@ stampedcopy() {
 
   readonly TIMESTAMP=$(date "+%F")
   for path in "$1"/*; do
-    [ -e "$path" ] || continue
+    [ -f "$path" ] || continue
     file=${path##*/}
     new_file="${2}/${TIMESTAMP}_${file}"
-    cp "$path" "$new_file"
+    cp -- "$path" "$new_file" | die "Failed to copy '$path' to '$new_file'."
   done
 }
 
@@ -30,4 +28,3 @@ if [ $# -lt 2 ]; then
 fi
 
 stampedcopy "$1" "$2"
-
