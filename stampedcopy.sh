@@ -18,7 +18,7 @@ stampedcopy() {
     [ -f "$path" ] || continue
     file=${path##*/}
     new_file="${2}/${TIMESTAMP}_${file}"
-    cp -- "$path" "$new_file" | die "Failed to copy '$path' to '$new_file'."
+    cp -- "$path" "$new_file" || die "Failed to copy '$path' to '$new_file'."
   done
 }
 
