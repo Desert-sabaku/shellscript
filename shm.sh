@@ -11,8 +11,9 @@ shm() {
   fi
 }
 
-if [ "$#" -gt 3 ]; then
-  printf "Usage: %s [Upper limit (percentage) for treating as an error]\n", "$0"
+if [ "$#" -gt 1 ]; then
+  printf "Usage: %s [Upper limit (percentage) for treating as an error]\n" "$0"
+  exit 1
 fi
 
 shm "$1"
