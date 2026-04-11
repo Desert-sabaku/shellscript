@@ -7,7 +7,7 @@ shm() {
   awk 'BEGIN { printf "%10s %s\n", "Filesystem", "Use%" } { printf "%10s %s%%\n", $1, $5 }' "$tempfile"
 
   if [ -n "$1" ]; then
-    awk '{ if ($5 >= "'"$1"'") exit 1 } END { exit 0 }' "$tempfile"
+    awk '{ if ($5 >= "'"$1"'") exit 1 }' "$tempfile"
   fi
 }
 
